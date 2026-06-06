@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Krushna Thakkar — ML Engineer & Researcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
+<style>
+  :root {
+    --home-bg: #050508;
+    --home-accent: #00f5ff;
+    --home-text: #ffffff;
+    --edu-bg: #0a0a1a;
+    --exp-bg: #080f08;
+    --proj-bg: #0f0808;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: auto; overflow-x: hidden; }
+
+  body {
+    background: var(--home-bg);
+    color: var(--home-text);
+    font-family: 'Syne', sans-serif;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* ── CURSOR ── */
+  #cursor {
+    position: fixed; top:0; left:0; pointer-events:none; z-index:9999;
+    mix-blend-mode: difference;
+  }
+  #cursor-dot {
+    width:8px; height:8px; background:#fff; border-radius:50%;
+    position:absolute; transform:translate(-50%,-50%);
+    transition: width .2s, height .2s;
+  }
+  #cursor-ring {
+    width:40px; height:40px; border:1.5px solid rgba(255,255,255,0.5);
+    border-radius:50%; position:absolute; transform:translate(-50%,-50%);
+    transition: all .15s ease;
+  }
+  body:has(a:hover) #cursor-ring,
+  body:has(button:hover) #cursor-ring { width:60px; height:60px; border-color:#00f5ff; }
+
+  /* ── NAV ── */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:20px 48px;
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: background 1s ease;
+  }
+  .nav-logo {
+    font-family:'Bebas Neue'; font-size:22px; letter-spacing:3px;
+    color:#fff; text-decoration:none;
+  }
+  .nav-links { display:flex; gap:40px; list-style:none; }
+  .nav-links a {
+    font-family:'JetBrains Mono'; font-size:11px; letter-spacing:2px;
+    text-transform:uppercase; color:rgba(255,255,255,0.5);
+    text-decoration:none; transition:color .3s;
+    position:relative;
+  }
+  .nav-links a::after {
+    content:''; position:absolute; bottom:-4px; left:0; width:0; height:1px;
+    background:#00f5ff; transition:width .3s;
+  }
+  .nav-links a:hover { color:#fff; }
+  .nav-links a:hover::after { width:100%; }
+
+  /* ── SECTIONS ── */
+  section { min-height:100vh; position:relative; overflow:hidden; }
+
+  /* ══════════════════════════════════
+     HOME — Physics Simulation
+  ══════════════════════════════════ */
+  #home {
+    background:#050508;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; padding:0 48px;
+  }
+  #particle-canvas {
+    position:absolute; top:0; left:0; width:100%; height:100%; opacity:.6;
+  }
+  .home-content { position:relative; z-index:2; text-align:center; }
+  .home-eyebrow {
+    font-family:'JetBrains Mono'; font-size:11px; letter-spacing:4px;
+    color:#00f5ff; text-transform:uppercase; margin-bottom:24px;
+    opacity:0; transform:translateY(20px);
+  }
+  .home-name {
+    font-family:'Bebas Neue'; font-size:clamp(80px,12vw,200px);
+    line-height:.9; letter-spacing:-2px;
+    background: linear-gradient(135deg, #fff 0%, #00f5ff 50%, #7c3aed 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
+    opacity:0; transform:translateY(40px);
+  }
+  .home-title {
+    font-family:'Syne'; font-size:clamp(14px,2vw,22px); font-weight:400;
+    color:rgba(255,255,255,0.6); margin-top:20px; letter-spacing:1px;
+    opacity:0;
+  }
+  .home-cta {
+    display:flex; gap:20px; justify-content:center; margin-top:48px;
+    opacity:0; transform:translateY(20px);
+  }
+  .btn-primary {
+    padding:14px 36px; background:#00f5ff; color:#050508;
+    font-family:'JetBrains Mono'; font-size:12px; font-weight:500;
+    letter-spacing:2px; text-transform:uppercase; border:none;
+    cursor:none; text-decoration:none; transition:all .3s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .btn-primary:hover { background:#fff; transform:translateY(-2px); }
+  .btn-outline {
+    padding:14px 36px; background:transparent; color:#fff;
+    font-family:'JetBrains Mono'; font-size:12px; letter-spacing:2px;
+    text-transform:uppercase; border:1px solid rgba(255,255,255,0.2);
+    cursor:none; text-decoration:none; transition:all .3s;
+  }
+  .btn-outline:hover { border-color:#00f5ff; color:#00f5ff; }
+
+  .home-stats {
+    position:absolute; bottom:60px; left:48px; right:48px;
+    display:flex; justify-content:space-between; align-items:flex-end;
+    z-index:2;
+  }
+  .stat-item { text-align:left; }
+  .stat-num {
+    font-family:'Bebas Neue'; font-size:48px; color:#00f5ff; line-height:1;
+  }
+  .stat-label {
+    font-family:'JetBrains Mono'; font-size:10px; color:rgba(255,255,255,0.4);
+    letter-spacing:2px; text-transform:uppercase; margin-top:4px;
+  }
+  .scroll-indicator {
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+  }
+  .scroll-indicator span {
+    font-family:'JetBrains Mono'; font-size:9px; letter-spacing:3px;
+    color:rgba(255,255,255,0.3); text-transform:uppercase;
+  }
+  .scroll-line {
+    width:1px; height:60px;
+    background:linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+  /* Physics grid overlay */
+  .grid-overlay {
+    position:absolute; inset:0; z-index:1; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+    background-size:60px 60px;
+    animation: gridShift 20s linear infinite;
+  }
+  @keyframes gridShift { from{background-position:0 0} to{background-position:60px 60px} }
+
+  /* formula floating */
+  .formula {
+    position:absolute; font-family:'JetBrains Mono'; font-size:11px;
+    color:rgba(0,245,255,0.15); pointer-events:none; white-space:nowrap;
+    animation: floatFormula 15s ease-in-out infinite;
+  }
+  @keyframes floatFormula {
+    0%,100%{opacity:.15;transform:translateY(0)} 50%{opacity:.3;transform:translateY(-20px)}
+  }
+
+  /* ══════════════════════════════════
+     ABOUT
+  ══════════════════════════════════ */
+  #about {
+    background:#09090f;
+    display:grid; grid-template-columns:1fr 1fr; align-items:center;
+    padding:120px 80px; gap:80px;
+  }
+  .about-left {}
+  .section-tag {
+    font-family:'JetBrains Mono'; font-size:10px; letter-spacing:4px;
+    text-transform:uppercase; color:#00f5ff; margin-bottom:16px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .section-tag::before {
+    content:''; width:30px; height:1px; background:#00f5ff;
+  }
+  .about-heading {
+    font-family:'Bebas Neue'; font-size:clamp(50px,6vw,90px);
+    line-height:1; margin-bottom:32px; color:#fff;
+  }
+  .about-text {
+    font-size:16px; line-height:1.8; color:rgba(255,255,255,0.55);
+    margin-bottom:20px;
+  }
+  .skill-chips { display:flex; flex-wrap:wrap; gap:10px; margin-top:32px; }
+  .chip {
+    padding:6px 16px; background:rgba(0,245,255,0.08);
+    border:1px solid rgba(0,245,255,0.2);
+    font-family:'JetBrains Mono'; font-size:10px; letter-spacing:1px;
+    color:#00f5ff; text-transform:uppercase;
+    transition:all .3s;
+  }
+  .chip:hover { background:rgba(0,245,255,0.15); transform:translateY(-2px); }
+
+  .about-right { position:relative; }
+  .about-card {
+    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);
+    padding:48px; position:relative; overflow:hidden;
+  }
+  .about-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,#00f5ff,#7c3aed);
+  }
+  .terminal-line {
+    font-family:'JetBrains Mono'; font-size:12px;
+    color:rgba(255,255,255,0.4); margin-bottom:8px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .terminal-line.active { color:#00f5ff; }
+  .terminal-prompt { color:#7c3aed; }
+
+  /* ══════════════════════════════════
+     EDUCATION — "WE LIVE IN A SIMULATION"
+     city backgrounds change per school
+  ══════════════════════════════════ */
+  #education { background:#0a0a1a; padding:0; }
+
+  .edu-intro {
+    padding:120px 80px 60px;
+    text-align:center; position:relative;
+  }
+  .sim-headline {
+    font-family:'Bebas Neue'; font-size:clamp(60px,10vw,160px);
+    line-height:.85; color:#fff; position:relative; z-index:2;
+  }
+  .sim-headline .glitch { position:relative; }
+  .sim-headline .glitch::before,
+  .sim-headline .glitch::after {
+    content: attr(data-text); position:absolute; top:0; left:0;
+    width:100%; height:100%;
+  }
+  .sim-headline .glitch::before {
+    color:#00f5ff; clip-path:polygon(0 0,100% 0,100% 35%,0 35%);
+    transform:translate(-3px,0); animation:glitch1 3s infinite;
+  }
+  .sim-headline .glitch::after {
+    color:#7c3aed; clip-path:polygon(0 65%,100% 65%,100% 100%,0 100%);
+    transform:translate(3px,0); animation:glitch2 3s infinite;
+  }
+  @keyframes glitch1 { 0%,100%{transform:translate(-3px,0)} 50%{transform:translate(3px,-2px)} }
+  @keyframes glitch2 { 0%,100%{transform:translate(3px,0)} 50%{transform:translate(-3px,2px)} }
+
+  .edu-cards-wrapper {
+    display:flex; flex-direction:column; gap:0;
+  }
+
+  .edu-card {
+    min-height:80vh; position:relative; display:flex;
+    align-items:center; overflow:hidden;
+    transition:all .5s ease;
+  }
+  .edu-city-bg {
+    position:absolute; inset:0; z-index:0;
+    background-size:cover; background-position:center;
+    opacity:0.12; transition:opacity .8s ease;
+    filter:saturate(0.3);
+  }
+  .edu-card:hover .edu-city-bg { opacity:0.25; filter:saturate(0.6); }
+
+  .edu-card.sacramento .edu-city-bg {
+    background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=80');
+  }
+  .edu-card.sf .edu-city-bg {
+    background-image: url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=1920&q=80');
+  }
+  .edu-card.sanjose-ug .edu-city-bg {
+    background-image: url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1920&q=80');
+  }
+  .edu-card.pittsburgh .edu-city-bg {
+    background-image: url('https://images.unsplash.com/photo-1589820194427-e4e4e695ea28?w=1920&q=80');
+  }
+
+  .edu-card-inner {
+    position:relative; z-index:2; padding:80px;
+    max-width:900px; width:100%;
+  }
+  .edu-year {
+    font-family:'JetBrains Mono'; font-size:11px; letter-spacing:4px;
+    color:#00f5ff; text-transform:uppercase; margin-bottom:20px;
+    opacity:.7;
+  }
+  .edu-degree {
+    font-family:'Bebas Neue'; font-size:clamp(40px,5vw,80px);
+    line-height:.95; color:#fff; margin-bottom:16px;
+  }
+  .edu-school {
+    font-family:'Syne'; font-size:20px; font-weight:500;
+    color:rgba(255,255,255,0.6); margin-bottom:24px;
+  }
+  .edu-city-label {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:8px 20px; border:1px solid rgba(255,255,255,0.1);
+    font-family:'JetBrains Mono'; font-size:10px; letter-spacing:3px;
+    color:rgba(255,255,255,0.4); text-transform:uppercase;
+  }
+  .edu-city-label span { width:6px; height:6px; border-radius:50%; background:#00f5ff; }
+
+  .edu-divider {
+    height:1px;
+    background:linear-gradient(90deg,rgba(0,245,255,0.3) 0%,transparent 100%);
+    margin:0 80px;
+  }
+
+  /* MASTERS highlight */
+  .edu-card.masters-highlight {
+    background:linear-gradient(135deg,rgba(124,58,237,0.05) 0%,rgba(0,245,255,0.02) 100%);
+  }
+  .edu-card.masters-highlight .edu-degree {
+    background:linear-gradient(90deg,#fff,#00f5ff);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .cmu-badge {
+    display:inline-block; margin-top:24px;
+    padding:10px 24px; background:rgba(196,18,48,0.15);
+    border:1px solid rgba(196,18,48,0.4);
+    font-family:'JetBrains Mono'; font-size:10px; letter-spacing:2px;
+    color:#ff4466; text-transform:uppercase;
+  }
+
+  /* ══════════════════════════════════
+     EXPERIENCE — Dark Editorial
+  ══════════════════════════════════ */
+  #experience { background:#060d06; padding:120px 0; }
+
+  .exp-header { padding:0 80px; margin-bottom:80px; }
+  .exp-heading {
+    font-family:'Bebas Neue'; font-size:clamp(60px,8vw,130px);
+    line-height:.9; color:#fff;
+  }
+  .exp-heading em {
+    font-family:'Playfair Display'; font-style:italic;
+    color:#4ade80; font-size:0.6em; vertical-align:middle;
+  }
+
+  .exp-list { display:flex; flex-direction:column; }
+
+  .exp-item {
+    display:grid; grid-template-columns:200px 1fr auto;
+    gap:48px; align-items:start;
+    padding:48px 80px;
+    border-top:1px solid rgba(255,255,255,0.06);
+    transition:background .3s;
+    cursor:none; position:relative; overflow:hidden;
+  }
+  .exp-item::before {
+    content:''; position:absolute; left:0; top:0; bottom:0; width:0;
+    background:linear-gradient(90deg,rgba(74,222,128,0.08),transparent);
+    transition:width .4s ease;
+  }
+  .exp-item:hover::before { width:100%; }
+  .exp-item:hover .exp-company { color:#4ade80; }
+
+  .exp-date {
+    font-family:'JetBrains Mono'; font-size:11px; color:rgba(255,255,255,0.3);
+    letter-spacing:1px; padding-top:6px;
+  }
+  .exp-company {
+    font-family:'Bebas Neue'; font-size:32px; letter-spacing:1px;
+    color:#fff; transition:color .3s; margin-bottom:8px;
+  }
+  .exp-role {
+    font-family:'Syne'; font-size:14px; color:rgba(255,255,255,0.5);
+    margin-bottom:16px; font-weight:500;
+  }
+  .exp-desc {
+    font-family:'Syne'; font-size:14px; color:rgba(255,255,255,0.35);
+    line-height:1.7; max-width:600px;
+  }
+  .exp-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:16px; }
+  .exp-tag {
+    padding:3px 10px; background:rgba(74,222,128,0.08);
+    border:1px solid rgba(74,222,128,0.15);
+    font-family:'JetBrains Mono'; font-size:9px; letter-spacing:1px;
+    color:#4ade80; text-transform:uppercase;
+  }
+  .exp-arrow {
+    font-size:24px; color:rgba(255,255,255,0.1); padding-top:6px;
+    transition:color .3s, transform .3s;
+  }
+  .exp-item:hover .exp-arrow { color:#4ade80; transform:translate(4px,-4px); }
+
+  /* ══════════════════════════════════
+     PROJECTS — Brutalist Red
+  ══════════════════════════════════ */
+  #projects { background:#0c0404; padding:120px 80px; }
+
+  .proj-header { margin-bottom:80px; display:flex; justify-content:space-between; align-items:flex-end; }
+  .proj-heading {
+    font-family:'Bebas Neue'; font-size:clamp(60px,8vw,120px);
+    line-height:.9; color:#fff;
+  }
+  .proj-heading span { color:#ef4444; }
+  .proj-count {
+    font-family:'JetBrains Mono'; font-size:11px; letter-spacing:3px;
+    color:rgba(255,255,255,0.3); text-transform:uppercase;
+  }
+
+  .proj-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:24px; }
+
+  .proj-card {
+    background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06);
+    padding:40px; position:relative; overflow:hidden; cursor:none;
+    transition:all .4s ease;
+  }
+  .proj-card::before {
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(135deg,rgba(239,68,68,0.08),transparent);
+    opacity:0; transition:opacity .4s;
+  }
+  .proj-card:hover::before { opacity:1; }
+  .proj-card:hover { border-color:rgba(239,68,68,0.3); transform:translateY(-4px); }
+
+  .proj-card.large { grid-column:span 7; }
+  .proj-card.medium { grid-column:span 5; }
+  .proj-card.full { grid-column:span 12; display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+  .proj-card.third { grid-column:span 4; }
+
+  .proj-num {
+    font-family:'Bebas Neue'; font-size:60px; color:rgba(239,68,68,0.2);
+    position:absolute; top:20px; right:24px; line-height:1;
+  }
+  .proj-tag {
+    font-family:'JetBrains Mono'; font-size:9px; letter-spacing:3px;
+    color:#ef4444; text-transform:uppercase; margin-bottom:20px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .proj-tag::before { content:''; width:20px; height:1px; background:#ef4444; }
+  .proj-title {
+    font-family:'Syne'; font-size:22px; font-weight:700;
+    color:#fff; margin-bottom:16px; line-height:1.3;
+  }
+  .proj-desc {
+    font-family:'Syne'; font-size:14px; color:rgba(255,255,255,0.45);
+    line-height:1.7; margin-bottom:24px;
+  }
+  .proj-stack { display:flex; flex-wrap:wrap; gap:6px; }
+  .proj-tech {
+    padding:4px 12px; background:rgba(239,68,68,0.1);
+    font-family:'JetBrains Mono'; font-size:9px; letter-spacing:1px;
+    color:rgba(255,255,255,0.5); text-transform:uppercase;
+  }
+  .proj-link {
+    display:inline-flex; align-items:center; gap:6px; margin-top:20px;
+    font-family:'JetBrains Mono'; font-size:10px; letter-spacing:2px;
+    color:#ef4444; text-transform:uppercase; text-decoration:none;
+    transition:gap .3s;
+  }
+  .proj-link:hover { gap:12px; }
+
+  /* ══════════════════════════════════
+     CONTACT — Cosmic Dark
+  ══════════════════════════════════ */
+  #contact {
+    background:#03030a; padding:120px 80px;
+    display:flex; flex-direction:column; align-items:center;
+    text-align:center; position:relative; overflow:hidden;
+    min-height:80vh; justify-content:center;
+  }
+  #contact-canvas {
+    position:absolute; inset:0; opacity:.4;
+  }
+  .contact-content { position:relative; z-index:2; }
+  .contact-heading {
+    font-family:'Bebas Neue'; font-size:clamp(60px,10vw,150px);
+    line-height:.9; color:#fff; margin-bottom:32px;
+  }
+  .contact-heading span {
+    background:linear-gradient(90deg,#00f5ff,#7c3aed);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .contact-sub {
+    font-family:'Syne'; font-size:18px; color:rgba(255,255,255,0.4);
+    max-width:500px; margin:0 auto 48px; line-height:1.7;
+  }
+  .contact-links { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; }
+  .contact-link {
+    display:flex; align-items:center; gap:10px;
+    padding:16px 32px; border:1px solid rgba(255,255,255,0.1);
+    font-family:'JetBrains Mono'; font-size:11px; letter-spacing:2px;
+    text-transform:uppercase; color:rgba(255,255,255,0.5);
+    text-decoration:none; transition:all .3s;
+  }
+  .contact-link:hover { border-color:#00f5ff; color:#00f5ff; }
+  .contact-link svg { width:16px; height:16px; }
+
+  .footer-bar {
+    position:absolute; bottom:40px; left:80px; right:80px;
+    display:flex; justify-content:space-between; align-items:center;
+    border-top:1px solid rgba(255,255,255,0.06); padding-top:24px;
+  }
+  .footer-copy {
+    font-family:'JetBrains Mono'; font-size:10px; letter-spacing:1px;
+    color:rgba(255,255,255,0.2);
+  }
+  .footer-loc {
+    font-family:'JetBrains Mono'; font-size:10px; letter-spacing:1px;
+    color:rgba(255,255,255,0.2);
+  }
+
+  /* ══════════════════════════════════
+     ANIMATIONS & SCROLL FX
+  ══════════════════════════════════ */
+  .reveal { opacity:0; transform:translateY(40px); }
+
+  /* Section transition overlays */
+  .section-bg-overlay {
+    position:fixed; inset:0; z-index:50; pointer-events:none;
+    opacity:0; transition:opacity .6s;
+    mix-blend-mode:multiply;
+  }
+
+  /* Noise grain */
+  body::after {
+    content:''; position:fixed; inset:0; z-index:200; pointer-events:none;
+    opacity:.025;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size:200px 200px;
+  }
+
+  /* LOOOK-style edu section accent */
+  .edu-number {
+    position:absolute; right:80px; top:50%;
+    transform:translateY(-50%);
+    font-family:'Bebas Neue'; font-size:200px;
+    color:rgba(255,255,255,0.02); line-height:1;
+    pointer-events:none;
+  }
+
+  /* Horizontal scroll hint */
+  .h-scroll-line {
+    position:absolute; bottom:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,#00f5ff 0%,#7c3aed 50%,transparent 100%);
+    transform:scaleX(0); transform-origin:left;
+    transition:transform 1s ease;
+  }
+  .edu-card:hover .h-scroll-line { transform:scaleX(1); }
+
+  /* Responsive */
+  @media (max-width:768px) {
+    nav { padding:16px 24px; }
+    .nav-links { display:none; }
+    #about { grid-template-columns:1fr; padding:80px 24px; }
+    .edu-card-inner { padding:48px 24px; }
+    .edu-number { display:none; }
+    .exp-item { grid-template-columns:1fr; padding:32px 24px; gap:16px; }
+    .exp-date { display:none; }
+    #projects { padding:80px 24px; }
+    .proj-card.large,.proj-card.medium,.proj-card.full,.proj-card.third { grid-column:span 12; }
+    .proj-card.full { grid-template-columns:1fr; }
+    #contact { padding:80px 24px; }
+    .footer-bar { left:24px; right:24px; }
+    .home-stats { flex-direction:column; gap:24px; bottom:40px; left:24px; right:24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cursor">
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+</div>
+
+<!-- Nav -->
+<nav id="main-nav">
+  <a href="#home" class="nav-logo">KT.</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HOME ═══ -->
+<section id="home">
+  <canvas id="particle-canvas"></canvas>
+  <div class="grid-overlay"></div>
+
+  <!-- Floating formulas -->
+  <div class="formula" style="top:15%;left:5%;animation-delay:0s">∇²ψ + (2m/ℏ²)(E-V)ψ = 0</div>
+  <div class="formula" style="top:70%;left:3%;animation-delay:3s">σ(x) = 1/(1+e⁻ˣ)</div>
+  <div class="formula" style="top:25%;right:4%;animation-delay:6s">∂L/∂θ = Σᵢ(ŷᵢ - yᵢ)xᵢ</div>
+  <div class="formula" style="top:80%;right:6%;animation-delay:2s">EEG ∈ ℝⁿˣᵗ</div>
+  <div class="formula" style="top:45%;right:2%;animation-delay:8s">P(x|θ) = ∏ₙ P(xₙ|θ)</div>
+  <div class="formula" style="top:55%;left:2%;animation-delay:5s">H(x) = -Σ p(x)log p(x)</div>
+
+  <div class="home-content">
+    <p class="home-eyebrow">MS ECE @ Carnegie Mellon University</p>
+    <h1 class="home-name">KRUSHNA<br>THAKKAR</h1>
+    <p class="home-title">ML Engineer · Researcher · Builder</p>
+    <p class="home-title" style="font-family:'JetBrains Mono';font-size:12px;color:rgba(255,255,255,0.35);margin-top:8px;">
+      EEG · Signal Processing · LLMs · Autonomous Systems · Bioinformatics
+    </p>
+    <div class="home-cta">
+      <a href="#experience" class="btn-primary">View Work</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+
+  <div class="home-stats">
+    <div class="stat-item">
+      <div class="stat-num">4+</div>
+      <div class="stat-label">Years Building</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">6+</div>
+      <div class="stat-label">Industry Roles</div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+    <div class="stat-item" style="text-align:right;">
+      <div class="stat-num">CMU</div>
+      <div class="stat-label">MS ECE 2027</div>
+    </div>
+    <div class="stat-item" style="text-align:right;">
+      <div class="stat-num">3×</div>
+      <div class="stat-label">Dean's Honors</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="about-left">
+    <p class="section-tag">About</p>
+    <h2 class="about-heading reveal">I BUILD ML<br>SYSTEMS THAT<br>MATTER.</h2>
+    <p class="about-text reveal">
+      Graduate student at Carnegie Mellon University focused on machine learning for
+      real-world, signal-driven systems across neuroscience, biology, and autonomous domains.
+    </p>
+    <p class="about-text reveal">
+      Currently developing predictive ML models on simulated EEG signals to detect
+      cortical spreading depolarization — a clinically relevant neurological phenomenon.
+      Simultaneously teaching Deep Learning at CMU and pushing the state of the art.
+    </p>
+    <div class="skill-chips reveal">
+      <span class="chip">PyTorch</span><span class="chip">TensorFlow</span>
+      <span class="chip">AWS</span><span class="chip">LLMs</span>
+      <span class="chip">EEG</span><span class="chip">Signal Processing</span>
+      <span class="chip">GSAP</span><span class="chip">React</span>
+      <span class="chip">Redis</span><span class="chip">Bioinformatics</span>
+      <span class="chip">Radar</span><span class="chip">Autonomous</span>
+    </div>
+  </div>
+  <div class="about-right reveal">
+    <div class="about-card">
+      <div class="terminal-line"><span class="terminal-prompt">~/krushna</span> $ whoami</div>
+      <div class="terminal-line active">→ Krushna Thakkar</div>
+      <div class="terminal-line" style="margin-top:16px;"><span class="terminal-prompt">~/krushna</span> $ cat current_status.txt</div>
+      <div class="terminal-line active" style="margin-top:4px;">→ RA @ CMU · ML for BCI</div>
+      <div class="terminal-line active">→ TA @ CMU · Deep Learning (18-786)</div>
+      <div class="terminal-line active">→ RA @ CMU · Autonomous Sensor Research</div>
+      <div class="terminal-line" style="margin-top:16px;"><span class="terminal-prompt">~/krushna</span> $ cat interests.json</div>
+      <div class="terminal-line active" style="color:rgba(255,255,255,0.6);margin-top:4px;">{</div>
+      <div class="terminal-line active" style="color:rgba(255,255,255,0.6);padding-left:16px;">"domain": ["neuroscience","biology","autonomy"],</div>
+      <div class="terminal-line active" style="color:rgba(255,255,255,0.6);padding-left:16px;">"tools": ["signal_processing","temporal_modeling"],</div>
+      <div class="terminal-line active" style="color:rgba(255,255,255,0.6);padding-left:16px;">"goal": "correctness_under_noise"</div>
+      <div class="terminal-line active" style="color:rgba(255,255,255,0.6);">}</div>
+      <div class="terminal-line" style="margin-top:16px;"><span class="terminal-prompt">~/krushna</span> $ <span style="animation:blink 1s step-end infinite;border-right:2px solid #00f5ff;">&nbsp;</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EDUCATION ═══ -->
+<section id="education">
+  <div class="edu-intro">
+    <p class="section-tag" style="justify-content:center;">Education</p>
+    <h2 class="sim-headline">
+      <span class="glitch" data-text="WE LIVE">WE LIVE</span><br>
+      IN A SIMULATION
+    </h2>
+    <p style="font-family:'JetBrains Mono';font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:3px;text-transform:uppercase;margin-top:24px;">
+      — Background changes as you travel through cities —
+    </p>
+  </div>
+
+  <div class="edu-cards-wrapper">
+
+    <!-- 1. CSUS -->
+    <div class="edu-card sacramento">
+      <div class="edu-city-bg"></div>
+      <div class="edu-number">01</div>
+      <div class="edu-card-inner">
+        <div class="edu-year">Jan 2021 — Dec 2022</div>
+        <h3 class="edu-degree">BACHELOR OF<br>SCIENCE</h3>
+        <div class="edu-school">California State University — Sacramento</div>
+        <div class="edu-city-label">
+          <span></span>Sacramento, California
+        </div>
+        <p style="font-family:'Syne';font-size:15px;color:rgba(255,255,255,0.35);margin-top:24px;line-height:1.7;max-width:600px;">
+          Computer Science. Where it all began — front desk to code desk.
+          Built foundations in algorithms, systems, and software engineering
+          while developing real-world communication skills helping 500+ people daily.
+        </p>
+      </div>
+      <div class="h-scroll-line"></div>
+    </div>
+
+    <div class="edu-divider"></div>
+
+    <!-- 2. SFSU -->
+    <div class="edu-card sf">
+      <div class="edu-city-bg"></div>
+      <div class="edu-number">02</div>
+      <div class="edu-card-inner">
+        <div class="edu-year">Jan 2023 — May 2025</div>
+        <h3 class="edu-degree">BACHELOR'S<br>DEGREE</h3>
+        <div class="edu-school">San Francisco State University</div>
+        <div class="edu-city-label">
+          <span></span>San Francisco, California
+        </div>
+        <p style="font-family:'Syne';font-size:15px;color:rgba(255,255,255,0.35);margin-top:24px;line-height:1.7;max-width:600px;">
+          Computer Science. The Bay Area shaped the engineer. Taught Python as a
+          Teaching Fellow, hacked at competitions, published on GANs, CNNs, and Machine Learning.
+          Won TartanHacks at CMU. The city taught ambition.
+        </p>
+      </div>
+      <div class="h-scroll-line"></div>
+    </div>
+
+    <div class="edu-divider"></div>
+
+    <!-- 3. SJSU -->
+    <div class="edu-card sanjose-ug masters-highlight">
+      <div class="edu-city-bg"></div>
+      <div class="edu-number">03</div>
+      <div class="edu-card-inner">
+        <div class="edu-year">Jul 2025 — Jan 2026</div>
+        <h3 class="edu-degree">MASTER OF<br>SCIENCE</h3>
+        <div class="edu-school">San José State University</div>
+        <div class="edu-city-label">
+          <span style="background:#7c3aed;"></span>San Jose, California · AI Autonomous Systems
+        </div>
+        <p style="font-family:'Syne';font-size:15px;color:rgba(255,255,255,0.35);margin-top:24px;line-height:1.7;max-width:600px;">
+          Artificial Intelligence: Autonomous Systems. Applied ML to biological
+          sequence and protein data. Managed cross-functional ML projects.
+          The first master's — a transition to research-grade thinking.
+        </p>
+      </div>
+      <div class="h-scroll-line"></div>
+    </div>
+
+    <div class="edu-divider"></div>
+
+    <!-- 4. CMU -->
+    <div class="edu-card pittsburgh masters-highlight">
+      <div class="edu-city-bg"></div>
+      <div class="edu-number">04</div>
+      <div class="edu-card-inner">
+        <div class="edu-year">Jan 2026 — Dec 2027</div>
+        <h3 class="edu-degree">MASTER OF<br>SCIENCE</h3>
+        <div class="edu-school">Carnegie Mellon University</div>
+        <div class="edu-city-label">
+          <span style="background:#c41230;"></span>Pittsburgh, Pennsylvania · Electrical & Computer Engineering
+        </div>
+        <p style="font-family:'Syne';font-size:15px;color:rgba(255,255,255,0.35);margin-top:24px;line-height:1.7;max-width:600px;">
+          ECE with focus on ML for signal-driven systems. Research Assistant for EEG/CSD prediction.
+          TA for Deep Learning (18-786). Simultaneously leading autonomous sensor ML research.
+          The peak of the simulation.
+        </p>
+        <span class="cmu-badge">🏆 Dean's Honor's List · TartanHacks Winner</span>
+      </div>
+      <div class="h-scroll-line"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ EXPERIENCE ═══ -->
+<section id="experience">
+  <div class="exp-header">
+    <p class="section-tag">Experience</p>
+    <h2 class="exp-heading reveal">WHERE I'VE<br>MADE <em>things</em><br>REAL.</h2>
+  </div>
+
+  <div class="exp-list">
+
+    <div class="exp-item reveal">
+      <div class="exp-date">Apr 2026 – Present<br><br>Jan 2026 – Present<br><br>Jan 2026 – Present</div>
+      <div>
+        <div class="exp-company">CARNEGIE MELLON UNIVERSITY</div>
+        <div class="exp-role">Research Project Assistant · Research Assistant · Teaching Assistant</div>
+        <div class="exp-desc">
+          Three concurrent roles at CMU: Configuring multi-sensor radar setups and
+          analyzing ML models for autonomous perception. Designing predictive ML models
+          on simulated EEG to detect cortical spreading depolarization.
+          TAing 18-786 Introduction to Deep Learning — optimization, representation learning,
+          modern architectures.
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">EEG</span>
+          <span class="exp-tag">Radar</span>
+          <span class="exp-tag">Deep Learning</span>
+          <span class="exp-tag">Signal Processing</span>
+          <span class="exp-tag">Temporal Modeling</span>
+        </div>
+      </div>
+      <div class="exp-arrow">↗</div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-date">Jul 2025 – Jan 2026</div>
+      <div>
+        <div class="exp-company">SAN JOSÉ STATE UNIVERSITY</div>
+        <div class="exp-role">Graduate Research Assistant · Project Manager, PMO</div>
+        <div class="exp-desc">
+          Applied ML to biological sequence and protein data — feature extraction,
+          model training, evaluation for predictive biological tasks.
+          Worked with noisy, high-dimensional biological datasets.
+          Also managed cross-functional ML-driven technical projects as PMO.
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">Bioinformatics</span>
+          <span class="exp-tag">Protein ML</span>
+          <span class="exp-tag">Project Management</span>
+        </div>
+      </div>
+      <div class="exp-arrow">↗</div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-date">Jan 2025 – Apr 2025</div>
+      <div>
+        <div class="exp-company">LAMBDA CRUNCH INC.</div>
+        <div class="exp-role">Cloud Engineer</div>
+        <div class="exp-desc">
+          Designed, deployed and maintained cloud-based ML data and inference pipelines
+          using AWS (EC2, S3, Lambda, RDS). Built data ingestion pipelines and API layers
+          exposing ML-powered services in production.
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">AWS</span>
+          <span class="exp-tag">EC2</span>
+          <span class="exp-tag">Lambda</span>
+          <span class="exp-tag">ML Pipelines</span>
+          <span class="exp-tag">APIs</span>
+        </div>
+      </div>
+      <div class="exp-arrow">↗</div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-date">Jul 2024 – Oct 2024</div>
+      <div>
+        <div class="exp-company">GOOD WORK HUB</div>
+        <div class="exp-role">Machine Learning Engineer</div>
+        <div class="exp-desc">
+          Built and deployed LLM-powered systems connecting micro-charities with grants.
+          Designed agent-based pipelines for large-scale web data collection and autonomous grant matching.
+          Deployed LLaMA-3 8B chatbot agents for automated data extraction and task orchestration.
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">LLaMA-3</span>
+          <span class="exp-tag">Agents</span>
+          <span class="exp-tag">RAG</span>
+          <span class="exp-tag">Web Scraping</span>
+          <span class="exp-tag">LLM</span>
+        </div>
+      </div>
+      <div class="exp-arrow">↗</div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-date">Dec 2023 – Jun 2024</div>
+      <div>
+        <div class="exp-company">FLOW</div>
+        <div class="exp-role">Artificial Intelligence Engineer</div>
+        <div class="exp-desc">
+          Developed deep learning models on datasets of 20k+ rows × 100+ columns with TensorFlow/PyTorch.
+          Deployed on AWS, tested on Azure ML. Contributed to AI patent filing.
+          Built web scraping pipelines (Scrapy, BeautifulSoup, Selenium) and integrated HubSpot CRM.
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">PyTorch</span>
+          <span class="exp-tag">TensorFlow</span>
+          <span class="exp-tag">AWS</span>
+          <span class="exp-tag">Azure ML</span>
+          <span class="exp-tag">Patent</span>
+        </div>
+      </div>
+      <div class="exp-arrow">↗</div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-date">Aug 2023 – Dec 2023</div>
+      <div>
+        <div class="exp-company">SAN FRANCISCO STATE UNIVERSITY</div>
+        <div class="exp-role">Teaching Fellow — Python</div>
+        <div class="exp-desc">
+          Supported Python programming instruction — tutoring, office hours, debugging,
+          hackathon support. Bridged theory to practice for a new generation of coders.
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">Python</span>
+          <span class="exp-tag">Teaching</span>
+          <span class="exp-tag">Mentorship</span>
+        </div>
+      </div>
+      <div class="exp-arrow">↗</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section id="projects">
+  <div class="proj-header">
+    <h2 class="proj-heading reveal">BUILT<br>TO <span>LAST.</span></h2>
+    <div class="proj-count">Selected Projects</div>
+  </div>
+
+  <div class="proj-grid">
+
+    <div class="proj-card large reveal">
+      <div class="proj-num">01</div>
+      <div class="proj-tag">Neuroscience · ML</div>
+      <div class="proj-title">EEG Cortical Spreading Depolarization Predictor</div>
+      <div class="proj-desc">
+        Predictive ML models on simulated EEG signals to detect and forecast
+        cortical spreading depolarization (CSD) — a clinically relevant neurological
+        phenomenon. Focused on temporal modeling and inference under noisy, constrained data.
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tech">PyTorch</span>
+        <span class="proj-tech">EEG</span>
+        <span class="proj-tech">Temporal Models</span>
+        <span class="proj-tech">Signal Processing</span>
+        <span class="proj-tech">Neuroscience</span>
+      </div>
+      <a href="https://github.com/kru2710shna" target="_blank" class="proj-link">View on GitHub →</a>
+    </div>
+
+    <div class="proj-card medium reveal">
+      <div class="proj-num">02</div>
+      <div class="proj-tag">Autonomous · Perception</div>
+      <div class="proj-title">Multi-Sensor Radar ML Analysis</div>
+      <div class="proj-desc">
+        Simulation-driven sensor research: configuring multi-sensor radar setups,
+        generating adverse/normal driving scenarios, analyzing with ML for
+        autonomous perception system understanding.
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tech">Radar</span>
+        <span class="proj-tech">Simulation</span>
+        <span class="proj-tech">Autonomous</span>
+        <span class="proj-tech">ML</span>
+      </div>
+    </div>
+
+    <div class="proj-card third reveal">
+      <div class="proj-num">03</div>
+      <div class="proj-tag">Bioinformatics</div>
+      <div class="proj-title">Protein Sequence ML Predictor</div>
+      <div class="proj-desc">
+        Applied ML to biological sequence and protein data for predictive tasks —
+        feature extraction, model training on high-dimensional noisy biological datasets.
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tech">Python</span>
+        <span class="proj-tech">Bioinformatics</span>
+        <span class="proj-tech">Sklearn</span>
+      </div>
+    </div>
+
+    <div class="proj-card third reveal">
+      <div class="proj-num">04</div>
+      <div class="proj-tag">LLM · NLP</div>
+      <div class="proj-title">LLaMA-3 Grant Matching Agent</div>
+      <div class="proj-desc">
+        Autonomous LLM agent system (LLaMA-3 8B) for connecting micro-charities with
+        relevant grants. Large-scale web data collection + retrieval pipelines.
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tech">LLaMA-3</span>
+        <span class="proj-tech">Agents</span>
+        <span class="proj-tech">RAG</span>
+        <span class="proj-tech">LangChain</span>
+      </div>
+    </div>
+
+    <div class="proj-card third reveal">
+      <div class="proj-num">05</div>
+      <div class="proj-tag">Cloud · MLOps</div>
+      <div class="proj-title">Scalable ML Inference Pipeline</div>
+      <div class="proj-desc">
+        End-to-end AWS ML pipeline: EC2 training, S3 data lakes, Lambda inference,
+        RDS storage. Production-ready API-driven ML services at scale.
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tech">AWS</span>
+        <span class="proj-tech">EC2</span>
+        <span class="proj-tech">Lambda</span>
+        <span class="proj-tech">RDS</span>
+        <span class="proj-tech">FastAPI</span>
+      </div>
+    </div>
+
+    <div class="proj-card full reveal">
+      <div>
+        <div class="proj-num" style="position:static;font-size:40px;margin-bottom:16px;">06</div>
+        <div class="proj-tag">Deep Learning · Computer Vision</div>
+        <div class="proj-title">GAN-based Generative System + Publication</div>
+        <div class="proj-desc">
+          Researched and published on Generative Adversarial Networks — Discriminator
+          architecture, training dynamics, and convergence analysis.
+          Also published work on CNN, Regular Expressions, and the "No Data No Machine Learning" thesis.
+        </div>
+        <a href="https://github.com/kru2710shna" target="_blank" class="proj-link">GitHub →</a>
+      </div>
+      <div>
+        <div class="proj-tag" style="margin-bottom:20px;">Patents & Publications</div>
+        <div style="font-family:'JetBrains Mono';font-size:12px;color:rgba(255,255,255,0.4);line-height:2;">
+          📄 GANs — Generative Adversarial Networks: Discriminator<br>
+          📄 Regular Expression<br>
+          📄 Chapter: 1 What is Machine Learning?<br>
+          📄 Deep Learning — CNN<br>
+          📄 No Data No Machine Learning<br>
+          🏆 TartanHacks CMU Winner<br>
+          🏅 Dean's Honor's List × 3
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <canvas id="contact-canvas"></canvas>
+  <div class="contact-content">
+    <p class="section-tag" style="justify-content:center;">Let's Connect</p>
+    <h2 class="contact-heading reveal">LET'S BUILD<br><span>SOMETHING</span><br>REAL.</h2>
+    <p class="contact-sub reveal">
+      Open to applied research and ML engineering opportunities where strong foundations,
+      systems thinking, and real-world impact intersect.
+    </p>
+    <div class="contact-links reveal">
+      <a href="mailto:krushnakr9@gmail.com" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Email
+      </a>
+      <a href="https://www.linkedin.com/in/krushnathakkar" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/kru2710shna" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="tel:+19168869827" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5 19.79 19.79 0 01.08 2.86 2 2 0 012.08.68h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l.72-.72a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        Call
+      </a>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <div class="footer-copy">© 2026 Krushna Thakkar. All rights reserved.</div>
+    <div class="footer-loc">Pittsburgh, PA · Built from scratch</div>
+  </div>
+</section>
+
+<script>
+// ═══ CURSOR ═══
+const cursor = document.getElementById('cursor');
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  dot.style.left=mx+'px'; dot.style.top=my+'px';
+});
+function animCursor(){
+  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+
+// ═══ PARTICLE PHYSICS CANVAS ═══
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let W,H,particles=[];
+
+function resize(){
+  W=canvas.width=canvas.offsetWidth;
+  H=canvas.height=canvas.offsetHeight;
+}
+resize(); window.addEventListener('resize',resize);
+
+class Particle {
+  constructor(){this.reset();}
+  reset(){
+    this.x=Math.random()*W; this.y=Math.random()*H;
+    this.vx=(Math.random()-.5)*.4; this.vy=(Math.random()-.5)*.4;
+    this.r=Math.random()*2+.5; this.life=Math.random();
+    this.maxLife=Math.random()*300+200;
+    this.age=0;
+  }
+  update(){
+    this.x+=this.vx; this.y+=this.vy;
+    this.age++;
+    if(this.x<0||this.x>W||this.y<0||this.y>H||this.age>this.maxLife) this.reset();
+  }
+  draw(){
+    const alpha=Math.sin((this.age/this.maxLife)*Math.PI)*.7;
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(0,245,255,${alpha})`;
+    ctx.fill();
+  }
+}
+
+for(let i=0;i<120;i++) particles.push(new Particle());
+
+// Connection lines
+function drawConnections(){
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x;
+      const dy=particles[i].y-particles[j].y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<100){
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.strokeStyle=`rgba(0,245,255,${.1*(1-d/100)})`;
+        ctx.lineWidth=.5;
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function animParticles(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{p.update();p.draw();});
+  drawConnections();
+  requestAnimationFrame(animParticles);
+}
+animParticles();
+
+// ═══ CONTACT CANVAS — Starfield ═══
+const ccanvas = document.getElementById('contact-canvas');
+const cctx = ccanvas.getContext('2d');
+function resizeC(){ccanvas.width=ccanvas.offsetWidth;ccanvas.height=ccanvas.offsetHeight;}
+resizeC(); window.addEventListener('resize',resizeC);
+const stars=Array.from({length:200},()=>({
+  x:Math.random()*ccanvas.width, y:Math.random()*ccanvas.height,
+  r:Math.random()*1.5, speed:Math.random()*.3+.1, alpha:Math.random()
+}));
+function animStars(){
+  ccanvas.width=ccanvas.offsetWidth; ccanvas.height=ccanvas.offsetHeight;
+  cctx.clearRect(0,0,ccanvas.width,ccanvas.height);
+  stars.forEach(s=>{
+    s.y+=s.speed; if(s.y>ccanvas.height)s.y=0;
+    s.alpha=.3+.4*Math.sin(Date.now()*.001+s.x);
+    cctx.beginPath(); cctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    cctx.fillStyle=`rgba(255,255,255,${s.alpha})`; cctx.fill();
+  });
+  requestAnimationFrame(animStars);
+}
+animStars();
+
+// ═══ GSAP ANIMATIONS ═══
+gsap.registerPlugin(ScrollTrigger);
+
+// Home entrance
+gsap.timeline().to('.home-eyebrow',{opacity:1,y:0,duration:.8,delay:.3})
+  .to('.home-name',{opacity:1,y:0,duration:1,ease:'power3.out'},'-=.4')
+  .to('.home-title',{opacity:1,duration:.8},'-=.4')
+  .to('.home-cta',{opacity:1,y:0,duration:.8},'-=.5')
+  .to('.home-stats',{opacity:1,duration:.8},'-=.3');
+
+// Reveal on scroll
+document.querySelectorAll('.reveal').forEach(el=>{
+  gsap.fromTo(el,
+    {opacity:0,y:50},
+    {opacity:1,y:0,duration:.9,ease:'power3.out',
+     scrollTrigger:{trigger:el,start:'top 85%',once:true}
+    }
+  );
+});
+
+// Nav background changes per section
+const navEl = document.getElementById('main-nav');
+const sectionColors = {
+  home:'rgba(5,5,8,0.7)',
+  about:'rgba(9,9,15,0.8)',
+  education:'rgba(10,10,26,0.8)',
+  experience:'rgba(6,13,6,0.8)',
+  projects:'rgba(12,4,4,0.8)',
+  contact:'rgba(3,3,10,0.8)'
+};
+
+const navAccents = {
+  home:'#00f5ff',
+  about:'#00f5ff',
+  education:'#818cf8',
+  experience:'#4ade80',
+  projects:'#ef4444',
+  contact:'#00f5ff'
+};
+
+Object.keys(sectionColors).forEach(id=>{
+  ScrollTrigger.create({
+    trigger:`#${id}`,
+    start:'top 50%',
+    end:'bottom 50%',
+    onEnter:()=>{
+      navEl.style.background=sectionColors[id];
+      document.querySelectorAll('.nav-links a::after').forEach(()=>{});
+    },
+    onEnterBack:()=>{ navEl.style.background=sectionColors[id]; }
+  });
+});
+
+// Edu cards stagger
+document.querySelectorAll('.edu-card').forEach((card,i)=>{
+  gsap.fromTo(card,
+    {opacity:0,x:-60},
+    {opacity:1,x:0,duration:1,ease:'power3.out',
+     scrollTrigger:{trigger:card,start:'top 80%',once:true}
+    }
+  );
+});
+
+// Exp items stagger
+gsap.utils.toArray('.exp-item').forEach((item,i)=>{
+  gsap.fromTo(item,
+    {opacity:0,x:-30},
+    {opacity:1,x:0,duration:.7,delay:i*.05,ease:'power2.out',
+     scrollTrigger:{trigger:item,start:'top 88%',once:true}
+    }
+  );
+});
+
+// Project cards
+gsap.utils.toArray('.proj-card').forEach((card,i)=>{
+  gsap.fromTo(card,
+    {opacity:0,scale:.95},
+    {opacity:1,scale:1,duration:.8,delay:i*.08,ease:'power2.out',
+     scrollTrigger:{trigger:card,start:'top 90%',once:true}
+    }
+  );
+});
+
+// Smooth scroll nav links
+document.querySelectorAll('a[href^="#"]').forEach(link=>{
+  link.addEventListener('click',e=>{
+    e.preventDefault();
+    const target=document.querySelector(link.getAttribute('href'));
+    if(target) target.scrollIntoView({behavior:'smooth'});
+  });
+});
+
+// Active nav highlight
+const allSections=['home','about','education','experience','projects','contact'];
+const navLinks={};
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  const href=a.getAttribute('href').replace('#','');
+  navLinks[href]=a;
+});
+allSections.forEach(id=>{
+  ScrollTrigger.create({
+    trigger:`#${id}`,
+    start:'top 40%',
+    end:'bottom 40%',
+    onEnter:()=>{
+      Object.values(navLinks).forEach(a=>a.style.color='rgba(255,255,255,0.5)');
+      if(navLinks[id])navLinks[id].style.color='#fff';
+    },
+    onEnterBack:()=>{
+      Object.values(navLinks).forEach(a=>a.style.color='rgba(255,255,255,0.5)');
+      if(navLinks[id])navLinks[id].style.color='#fff';
+    }
+  });
+});
+
+// Parallax on edu city backgrounds
+document.querySelectorAll('.edu-city-bg').forEach(bg=>{
+  gsap.to(bg,{
+    yPercent:20,
+    ease:'none',
+    scrollTrigger:{
+      trigger:bg.parentElement,
+      start:'top bottom',
+      end:'bottom top',
+      scrub:true
+    }
+  });
+});
+
+// Glitch text on hover — headings
+document.querySelectorAll('.home-name').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    gsap.to(el,{skewX:2,x:3,duration:.1,yoyo:true,repeat:3});
+  });
+});
+
+console.log('%cKrushna Thakkar — Portfolio', 'font-size:20px;font-family:monospace;color:#00f5ff;');
+console.log('%cMS ECE @ Carnegie Mellon University', 'font-size:12px;font-family:monospace;color:#7c3aed;');
+console.log('%cgithub.com/kru2710shna', 'font-size:11px;font-family:monospace;color:rgba(255,255,255,0.4)');
+</script>
+</body>
+</html>
