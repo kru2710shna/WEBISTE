@@ -930,119 +930,337 @@
 <!-- ═══ PROJECTS ═══ -->
 <section id="projects">
   <div class="proj-header">
-    <h2 class="proj-heading reveal">BUILT<br>TO <span>LAST.</span></h2>
-    <div class="proj-count">Selected Projects</div>
+    <h2 class="proj-heading reveal">94 REPOS.<br><span>BEST</span> OF.</h2>
+    <div class="proj-count">Curated from GitHub</div>
   </div>
 
-  <div class="proj-grid">
+  <!-- CATEGORY FILTERS -->
+  <div class="proj-filters reveal">
+    <button class="proj-filter active" data-filter="all">All</button>
+    <button class="proj-filter" data-filter="neuro">Neuro · BCI</button>
+    <button class="proj-filter" data-filter="llm">LLM · Agents</button>
+    <button class="proj-filter" data-filter="cv">Vision · CV</button>
+    <button class="proj-filter" data-filter="cloud">Cloud · MLOps</button>
+    <button class="proj-filter" data-filter="sim">Simulation</button>
+    <button class="proj-filter" data-filter="fullstack">Full Stack</button>
+  </div>
 
-    <div class="proj-card large reveal">
+  <div class="proj-grid" id="proj-grid">
+
+    <!-- 01 - TARS -->
+    <div class="proj-card large reveal" data-cat="sim">
       <div class="proj-num">01</div>
-      <div class="proj-tag">Neuroscience · ML</div>
-      <div class="proj-title">EEG Cortical Spreading Depolarization Predictor</div>
+      <div class="proj-tag">Simulation · Systems</div>
+      <div class="proj-title">TARS — Software Simulation</div>
       <div class="proj-desc">
-        Predictive ML models on simulated EEG signals to detect and forecast
-        cortical spreading depolarization (CSD) — a clinically relevant neurological
-        phenomenon. Focused on temporal modeling and inference under noisy, constrained data.
-      </div>
-      <div class="proj-stack">
-        <span class="proj-tech">PyTorch</span>
-        <span class="proj-tech">EEG</span>
-        <span class="proj-tech">Temporal Models</span>
-        <span class="proj-tech">Signal Processing</span>
-        <span class="proj-tech">Neuroscience</span>
-      </div>
-      <a href="https://github.com/kru2710shna" target="_blank" class="proj-link">View on GitHub →</a>
-    </div>
-
-    <div class="proj-card medium reveal">
-      <div class="proj-num">02</div>
-      <div class="proj-tag">Autonomous · Perception</div>
-      <div class="proj-title">Multi-Sensor Radar ML Analysis</div>
-      <div class="proj-desc">
-        Simulation-driven sensor research: configuring multi-sensor radar setups,
-        generating adverse/normal driving scenarios, analyzing with ML for
-        autonomous perception system understanding.
-      </div>
-      <div class="proj-stack">
-        <span class="proj-tech">Radar</span>
-        <span class="proj-tech">Simulation</span>
-        <span class="proj-tech">Autonomous</span>
-        <span class="proj-tech">ML</span>
-      </div>
-    </div>
-
-    <div class="proj-card third reveal">
-      <div class="proj-num">03</div>
-      <div class="proj-tag">Bioinformatics</div>
-      <div class="proj-title">Protein Sequence ML Predictor</div>
-      <div class="proj-desc">
-        Applied ML to biological sequence and protein data for predictive tasks —
-        feature extraction, model training on high-dimensional noisy biological datasets.
+        Building a software simulation named TARS — a complex systems project
+        combining robotics thinking, simulation architecture, and autonomous behavior modeling.
+        Inspired by real-world constraints of physical systems.
       </div>
       <div class="proj-stack">
         <span class="proj-tech">Python</span>
-        <span class="proj-tech">Bioinformatics</span>
-        <span class="proj-tech">Sklearn</span>
+        <span class="proj-tech">Simulation</span>
+        <span class="proj-tech">Systems Design</span>
+        <span class="proj-tech">Autonomous</span>
       </div>
+      <a href="https://github.com/kru2710shna/TARS" target="_blank" class="proj-link">GitHub →</a>
     </div>
 
-    <div class="proj-card third reveal">
+    <!-- 02 - Integrate and Fire -->
+    <div class="proj-card medium reveal" data-cat="neuro">
+      <div class="proj-num">02</div>
+      <div class="proj-tag">Neuro · BCI</div>
+      <div class="proj-title">Leaky Integrate-and-Fire Neuron Model</div>
+      <div class="proj-desc">
+        Simulates a single LIF neuron — membrane potential, spike generation across
+        input currents. Dataset saved for downstream ML analysis. Directly feeds into CMU EEG research.
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tech">NumPy</span>
+        <span class="proj-tech">Neuroscience</span>
+        <span class="proj-tech">Signal Processing</span>
+        <span class="proj-tech">Python</span>
+      </div>
+      <a href="https://github.com/kru2710shna/Integrate_And_Fire_Neuron_Model" target="_blank" class="proj-link">GitHub →</a>
+    </div>
+
+    <!-- 03 - Hodgkin Huxley -->
+    <div class="proj-card third reveal" data-cat="neuro">
+      <div class="proj-num">03</div>
+      <div class="proj-tag">Neuro · BCI</div>
+      <div class="proj-title">Hodgkin-Huxley Neuron Model</div>
+      <div class="proj-desc">
+        Full implementation of the Nobel Prize-winning H-H model — ion channel dynamics,
+        action potential generation, conductance-based simulation.
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tech">Python</span>
+        <span class="proj-tech">ODE Solving</span>
+        <span class="proj-tech">Biophysics</span>
+      </div>
+      <a href="https://github.com/kru2710shna/Hodgkin-Huxley-Neuron-Model" target="_blank" class="proj-link">GitHub →</a>
+    </div>
+
+    <!-- 04 - Adaptive ExIF -->
+    <div class="proj-card third reveal" data-cat="neuro">
       <div class="proj-num">04</div>
-      <div class="proj-tag">LLM · NLP</div>
-      <div class="proj-title">LLaMA-3 Grant Matching Agent</div>
+      <div class="proj-tag">Neuro · BCI</div>
+      <div class="proj-title">Adaptive Exponential Integrate-and-Fire</div>
       <div class="proj-desc">
-        Autonomous LLM agent system (LLaMA-3 8B) for connecting micro-charities with
-        relevant grants. Large-scale web data collection + retrieval pipelines.
+        AdEx model — advanced spiking neuron simulation with adaptation currents.
+        Captures burst firing, regular spiking, and fast spiking behaviors.
       </div>
       <div class="proj-stack">
-        <span class="proj-tech">LLaMA-3</span>
-        <span class="proj-tech">Agents</span>
-        <span class="proj-tech">RAG</span>
-        <span class="proj-tech">LangChain</span>
+        <span class="proj-tech">Python</span>
+        <span class="proj-tech">SNN</span>
+        <span class="proj-tech">Neuroscience</span>
       </div>
+      <a href="https://github.com/kru2710shna/Adaptive-exponential-integrate-and-fire-model" target="_blank" class="proj-link">GitHub →</a>
     </div>
 
-    <div class="proj-card third reveal">
+    <!-- 05 - Multi-Agent Supervisor -->
+    <div class="proj-card third reveal" data-cat="llm">
       <div class="proj-num">05</div>
-      <div class="proj-tag">Cloud · MLOps</div>
-      <div class="proj-title">Scalable ML Inference Pipeline</div>
+      <div class="proj-tag">LLM · Agents</div>
+      <div class="proj-title">Multi-Agent Supervisor Model</div>
       <div class="proj-desc">
-        End-to-end AWS ML pipeline: EC2 training, S3 data lakes, Lambda inference,
-        RDS storage. Production-ready API-driven ML services at scale.
+        LLM-powered multi-agent system: Blog research, reframe, and rewrite pipeline.
+        Supervisor agent orchestrates specialized sub-agents end-to-end.
       </div>
       <div class="proj-stack">
+        <span class="proj-tech">LangGraph</span>
+        <span class="proj-tech">LLM</span>
+        <span class="proj-tech">Agents</span>
+        <span class="proj-tech">Python</span>
+      </div>
+      <a href="https://github.com/kru2710shna/Multi-Agent-Supervisior-Model" target="_blank" class="proj-link">GitHub →</a>
+    </div>
+
+    <!-- 06 - Student Finance Agent -->
+    <div class="proj-card third reveal" data-cat="llm">
+      <div class="proj-num">06</div>
+      <div class="proj-tag">LLM · Agents</div>
+      <div class="proj-title">Student Finance Agent</div>
+      <div class="proj-desc">
+        AI agent that answers student finance queries — budgeting, loans, grants.
+        Retrieval-augmented generation on financial documents.
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tech">LLM</span>
+        <span class="proj-tech">RAG</span>
+        <span class="proj-tech">Finance</span>
+        <span class="proj-tech">Python</span>
+      </div>
+      <a href="https://github.com/kru2710shna/Student-Finance-Agent" target="_blank" class="proj-link">GitHub →</a>
+    </div>
+
+    <!-- 07 - CFO Copilot LARGE -->
+    <div class="proj-card large reveal" data-cat="llm">
+      <div class="proj-num">07</div>
+      <div class="proj-tag">LLM · Finance · AI</div>
+      <div class="proj-title">CFO Copilot — AI Finance Assistant</div>
+      <div class="proj-desc">
+        Mini CFO Copilot — AI-powered assistant that answers finance questions directly
+        from structured CSV data. Bridges natural language queries with financial data
+        analytics. No SQL, no code — just ask.
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tech">LLM</span>
+        <span class="proj-tech">Pandas</span>
+        <span class="proj-tech">CSV Analytics</span>
+        <span class="proj-tech">Python</span>
+        <span class="proj-tech">Finance</span>
+      </div>
+      <a href="https://github.com/kru2710shna/CFO-Copilot" target="_blank" class="proj-link">GitHub →</a>
+    </div>
+
+    <!-- 08 - Scalable Recommender -->
+    <div class="proj-card medium reveal" data-cat="cloud">
+      <div class="proj-num">08</div>
+      <div class="proj-tag">Cloud · MLOps · Scale</div>
+      <div class="proj-title">Scalable Recommender System</div>
+      <div class="proj-desc">
+        Production-grade scalable recommender system — collaborative filtering,
+        matrix factorization, and real-time inference pipelines at scale.
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tech">Python</span>
         <span class="proj-tech">AWS</span>
-        <span class="proj-tech">EC2</span>
-        <span class="proj-tech">Lambda</span>
-        <span class="proj-tech">RDS</span>
-        <span class="proj-tech">FastAPI</span>
+        <span class="proj-tech">Collaborative Filtering</span>
+        <span class="proj-tech">ML</span>
+      </div>
+      <a href="https://github.com/kru2710shna/Scalable_Recommender" target="_blank" class="proj-link">GitHub →</a>
+    </div>
+
+    <!-- 09 - Medicine Recommendation -->
+    <div class="proj-card third reveal" data-cat="cv">
+      <div class="proj-num">09</div>
+      <div class="proj-tag">Healthcare · ML</div>
+      <div class="proj-title">Personalized Medicine Recommendation</div>
+      <div class="proj-desc">
+        Personalized medical recommendation system using patient history and symptom
+        data. End-to-end ML pipeline with clinical data preprocessing.
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tech">Sklearn</span>
+        <span class="proj-tech">Healthcare</span>
+        <span class="proj-tech">Pandas</span>
+        <span class="proj-tech">Flask</span>
+      </div>
+      <a href="https://github.com/kru2710shna/Medicine_Recommendation_System" target="_blank" class="proj-link">GitHub →</a>
+    </div>
+
+    <!-- 10 - Chest X-Ray -->
+    <div class="proj-card third reveal" data-cat="cv">
+      <div class="proj-num">10</div>
+      <div class="proj-tag">Medical Imaging · CV</div>
+      <div class="proj-title">Chest X-Ray Image Classification</div>
+      <div class="proj-desc">
+        Deep learning model classifying chest X-ray images — pneumonia detection
+        using CNN architectures with data augmentation and transfer learning.
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tech">PyTorch</span>
+        <span class="proj-tech">CNN</span>
+        <span class="proj-tech">Medical Imaging</span>
+        <span class="proj-tech">Transfer Learning</span>
+      </div>
+      <a href="https://github.com/kru2710shna/Chest-X-ray-Image-Classification" target="_blank" class="proj-link">GitHub →</a>
+    </div>
+
+    <!-- 11 - Kidney Disease -->
+    <div class="proj-card third reveal" data-cat="cloud">
+      <div class="proj-num">11</div>
+      <div class="proj-tag">Deep Learning · MLOps</div>
+      <div class="proj-title">Kidney Disease Classification</div>
+      <div class="proj-desc">
+        End-to-end deep learning project with MLflow experiment tracking, DVC
+        data versioning, and cloud deployment. Full production MLOps pipeline.
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tech">MLflow</span>
+        <span class="proj-tech">DVC</span>
+        <span class="proj-tech">Deep Learning</span>
+        <span class="proj-tech">AWS</span>
+      </div>
+      <a href="https://github.com/kru2710shna/Kidney-Disease-Classification" target="_blank" class="proj-link">GitHub →</a>
+    </div>
+
+    <!-- 12 - PINN -->
+    <div class="proj-card medium reveal" data-cat="sim">
+      <div class="proj-num">12</div>
+      <div class="proj-tag">Physics · PINN · AI</div>
+      <div class="proj-title">Poisson Equation AI Model (PINN)</div>
+      <div class="proj-desc">
+        Physics-Informed Neural Network solving the Poisson PDE. Encodes physical
+        laws into the loss function — no labeled data needed. Where physics meets
+        deep learning.
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tech">PyTorch</span>
+        <span class="proj-tech">PINN</span>
+        <span class="proj-tech">PDE</span>
+        <span class="proj-tech">Physics</span>
+        <span class="proj-tech">NumPy</span>
+      </div>
+      <a href="https://github.com/kru2710shna/PoissonEquationAIModel" target="_blank" class="proj-link">GitHub →</a>
+    </div>
+
+    <!-- 13 - Robotic Simulation -->
+    <div class="proj-card third reveal" data-cat="sim">
+      <div class="proj-num">13</div>
+      <div class="proj-tag">Robotics · Simulation</div>
+      <div class="proj-title">PyBullet Robotic Simulation</div>
+      <div class="proj-desc">
+        PyBullet physics simulation walkthrough — robotic agents in simulated
+        environments for control and learning experiments.
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tech">PyBullet</span>
+        <span class="proj-tech">Robotics</span>
+        <span class="proj-tech">Python</span>
+        <span class="proj-tech">Physics</span>
+      </div>
+      <a href="https://github.com/kru2710shna/Robotic_Simulation" target="_blank" class="proj-link">GitHub →</a>
+    </div>
+
+    <!-- 14 - Apex F1 -->
+    <div class="proj-card third reveal" data-cat="cloud">
+      <div class="proj-num">14</div>
+      <div class="proj-tag">ML · Sports Analytics</div>
+      <div class="proj-title">Apex AI — F1 Race Prediction</div>
+      <div class="proj-desc">
+        ML model predicting Formula 1 race outcomes using telemetry, weather,
+        and historical race data. Built for CMPE257 — production-grade sports ML.
+      </div>
+      <div class="proj-stack">
+        <span class="proj-tech">Sklearn</span>
+        <span class="proj-tech">XGBoost</span>
+        <span class="proj-tech">Pandas</span>
+        <span class="proj-tech">Sports Analytics</span>
+      </div>
+      <a href="https://github.com/kru2710shna/Apex-AI-F1-Prediction_CMPE257" target="_blank" class="proj-link">GitHub →</a>
+    </div>
+
+    <!-- 15 - Uber App Clone FULL WIDTH -->
+    <div class="proj-card full reveal" data-cat="fullstack">
+      <div>
+        <div class="proj-num" style="position:static;font-size:40px;margin-bottom:16px;">15</div>
+        <div class="proj-tag">Full Stack · Production</div>
+        <div class="proj-title">Production-Level Uber App Clone</div>
+        <div class="proj-desc">
+          End-to-end production MERN stack Uber clone — real-time maps, ride matching,
+          driver/rider flows, socket-based live tracking, payment integration.
+          Built at production scale with proper architecture patterns.
+        </div>
+        <div class="proj-stack">
+          <span class="proj-tech">MongoDB</span>
+          <span class="proj-tech">Express</span>
+          <span class="proj-tech">React</span>
+          <span class="proj-tech">Node.js</span>
+          <span class="proj-tech">Socket.io</span>
+          <span class="proj-tech">Maps API</span>
+        </div>
+        <a href="https://github.com/kru2710shna/UberAppClone" target="_blank" class="proj-link">GitHub →</a>
+      </div>
+      <div>
+        <div class="proj-tag" style="margin-bottom:20px;">Also Notable</div>
+        <div style="font-family:'JetBrains Mono';font-size:11px;color:rgba(255,255,255,0.35);line-height:2.2;">
+          🧠 <a href="https://github.com/kru2710shna/Self_Made_Nueral_Network" target="_blank" style="color:rgba(255,255,255,0.4);text-decoration:none;">Self_Made_Neural_Network</a> — Built from scratch<br>
+          🔋 <a href="https://github.com/kru2710shna/Battery-Degradation-Pattern-Detection" target="_blank" style="color:rgba(255,255,255,0.4);text-decoration:none;">Battery Degradation Detection</a> — Applied ML<br>
+          🚗 <a href="https://github.com/kru2710shna/MyWaymo-Object_Detection" target="_blank" style="color:rgba(255,255,255,0.4);text-decoration:none;">Waymo Object Detection</a> — Autonomous driving<br>
+          🌊 <a href="https://github.com/kru2710shna/Waveform_Energy_SI_Sim" target="_blank" style="color:rgba(255,255,255,0.4);text-decoration:none;">Waveform Energy Simulation</a> — Signal sim<br>
+          📊 <a href="https://github.com/kru2710shna/DSA" target="_blank" style="color:rgba(255,255,255,0.4);text-decoration:none;">DSA ⭐4</a> — LeetCode in Jupyter Notebooks<br>
+          🔍 <a href="https://github.com/kru2710shna/Screenshot-Search" target="_blank" style="color:rgba(255,255,255,0.4);text-decoration:none;">Screenshot Search</a> — Vision + retrieval<br>
+          🤖 <a href="https://github.com/kru2710shna/Reinforcement-Learning" target="_blank" style="color:rgba(255,255,255,0.4);text-decoration:none;">Reinforcement Learning</a> — Basics to advanced<br>
+          ✈️ <a href="https://github.com/kru2710shna/End_To_End_Flightfare_Prediction" target="_blank" style="color:rgba(255,255,255,0.4);text-decoration:none;">Flight Fare Prediction</a> — India dataset<br>
+        </div>
       </div>
     </div>
 
-    <div class="proj-card full reveal">
+    <!-- Publications row -->
+    <div class="proj-card full reveal" data-cat="all" style="border-color:rgba(0,245,255,0.15);background:rgba(0,245,255,0.02);">
       <div>
-        <div class="proj-num" style="position:static;font-size:40px;margin-bottom:16px;">06</div>
-        <div class="proj-tag">Deep Learning · Computer Vision</div>
-        <div class="proj-title">GAN-based Generative System + Publication</div>
-        <div class="proj-desc">
-          Researched and published on Generative Adversarial Networks — Discriminator
-          architecture, training dynamics, and convergence analysis.
-          Also published work on CNN, Regular Expressions, and the "No Data No Machine Learning" thesis.
-        </div>
-        <a href="https://github.com/kru2710shna" target="_blank" class="proj-link">GitHub →</a>
-      </div>
-      <div>
-        <div class="proj-tag" style="margin-bottom:20px;">Patents & Publications</div>
-        <div style="font-family:'JetBrains Mono';font-size:12px;color:rgba(255,255,255,0.4);line-height:2;">
+        <div class="proj-tag" style="color:#00f5ff;">Publications · Research</div>
+        <div class="proj-title" style="font-size:18px;">5 Published Articles · 1 Patent Contribution · 3× Dean's Honors</div>
+        <div style="font-family:'JetBrains Mono';font-size:11px;color:rgba(255,255,255,0.35);line-height:2.2;margin-top:16px;">
           📄 GANs — Generative Adversarial Networks: Discriminator<br>
-          📄 Regular Expression<br>
-          📄 Chapter: 1 What is Machine Learning?<br>
+          📄 Regular Expression (in-depth)<br>
+          📄 Chapter 1: What is Machine Learning?<br>
           📄 Deep Learning — CNN<br>
-          📄 No Data No Machine Learning<br>
-          🏆 TartanHacks CMU Winner<br>
-          🏅 Dean's Honor's List × 3
+          📄 No Data No Machine Learning
         </div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:16px;">
+        <div style="padding:20px;border:1px solid rgba(239,68,68,0.3);background:rgba(239,68,68,0.05);">
+          <div style="font-family:'Bebas Neue';font-size:28px;color:#ef4444;">🏆 TartanHacks CMU</div>
+          <div style="font-family:'JetBrains Mono';font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:2px;text-transform:uppercase;margin-top:4px;">Hackathon Winner · Carnegie Mellon</div>
+        </div>
+        <div style="padding:20px;border:1px solid rgba(0,245,255,0.2);background:rgba(0,245,255,0.03);">
+          <div style="font-family:'Bebas Neue';font-size:28px;color:#00f5ff;">🏅 Dean's List × 3</div>
+          <div style="font-family:'JetBrains Mono';font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:2px;text-transform:uppercase;margin-top:4px;">Academic Excellence · Multiple Semesters</div>
+        </div>
+        <a href="https://github.com/kru2710shna?tab=repositories" target="_blank" class="proj-link" style="margin-top:0;">See all 94 repos →</a>
       </div>
     </div>
 
